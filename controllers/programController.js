@@ -6,6 +6,7 @@ const fs = require('fs');  // Menambahkan fs untuk menghapus file
 exports.createProgram = (req, res) => {
     const { title, description } = req.body;  // Ambil data dari body
     const image = req.file ? req.file.filename : null;  // Ambil nama file gambar jika ada
+    const createdBy = req.user.id
 
     // Validasi input
     if (!title || !description || !image) {
@@ -13,8 +14,8 @@ exports.createProgram = (req, res) => {
     }
 
     // Query untuk menyimpan data program ke database
-    const query = "INSERT INTO programs (title, description, image) VALUES (?, ?, ?)";
-    db.query(query, [title, description, image], (err, results) => {
+    const query = "INSERT INTO programs (title, description, image, created_by) VALUES (?, ?, ?, ?)";
+    db.query(query, [title, description, image, createdBy], (err, results) => {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
@@ -23,7 +24,8 @@ exports.createProgram = (req, res) => {
             id: results.insertId, 
             title, 
             description, 
-            image
+            image,
+            created_by: createdBy
         });
     });
 };
