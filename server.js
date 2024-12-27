@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');  // Import cors
 const app = express();
+const path = require('path');
 const programsRoutes = require('./routes/programs');  // Mengimpor rute untuk program
 const authRoutes = require('./routes/auth');  // Mengimpor rute untuk login
 const port = 3000;
@@ -16,6 +17,9 @@ app.use(cors({
 // Middleware untuk menangani data form dan JSON
 // app.use(express.urlencoded({ extended: true }));  // Untuk URL encoded (misalnya untuk form biasa)
 app.use(express.json());  // Untuk menerima JSON (Jika perlu)
+
+// Middleware untuk folder uploads
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Gunakan routing dari auth.js untuk login
 app.use('/api/auth', authRoutes);
