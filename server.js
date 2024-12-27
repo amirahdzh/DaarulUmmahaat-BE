@@ -1,8 +1,17 @@
 const express = require('express');
+const cors = require('cors');  // Import cors
 const app = express();
 const programsRoutes = require('./routes/programs');  // Mengimpor rute untuk program
 const authRoutes = require('./routes/auth');  // Mengimpor rute untuk login
 const port = 3000;
+
+// Middleware CORS
+// Gunakan CORS Middleware
+app.use(cors({
+    origin: 'http://localhost:8080',  // Izinkan hanya origin ini
+    methods: ['GET', 'POST', 'DELETE'],  // Izinkan metode yang dibutuhkan
+    allowedHeaders: ['Content-Type', 'Authorization'],  // Izinkan header tertentu
+  }));
 
 // Middleware untuk menangani data form dan JSON
 // app.use(express.urlencoded({ extended: true }));  // Untuk URL encoded (misalnya untuk form biasa)
